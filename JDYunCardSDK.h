@@ -1,0 +1,21 @@
+//
+//  JDYunCardSDK.h
+//  JDYunCardSDK
+//
+//  Created by xiaoyi li on 16/9/21.
+//  Copyright © 2016年 xiaoyi li. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+//! Project version number for JDYunCardSDK.
+FOUNDATION_EXPORT double JDYunCardSDKVersionNumber;
+
+//! Project version string for JDYunCardSDK.
+FOUNDATION_EXPORT const unsigned char JDYunCardSDKVersionString[];
+
+// In this header, you should import all the public headers of your framework using statements like #import <JDYunCardSDK/PublicHeader.h>
+#import <JDYunCardSDK/JDCommonConstant.h>
+#import <JDYunCardSDK/JDUtils.h>
+#import <JDYunCardSDK/JDDevice.h>
+
