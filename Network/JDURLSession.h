@@ -20,12 +20,32 @@
 // 云卡用户注册回调
 typedef void(^JDYunCardSDKRegisterBlock)(NSDictionary *dic);
 
-// 云卡产品列表回调
-typedef void(^JDYunCardSDKProcutListBlock)(NSArray *products);
+// 云卡开卡申请回调
+typedef void(^JDYunCardSDKOpenAccountBlock)(NSDictionary *dic);
+
+// 云卡信息下载回调
+typedef void(^JDYunCardSDKDownloadBlock)(NSDictionary *dic);
+
+// 云卡信息列表查询回调
+typedef void(^JDYunCardSDKQueryListBlock)(NSDictionary *dic);
+
+// 查询云卡详情回调
+typedef void(^JDYunCardSDKQueryInfoBlock)(NSDictionary *dic);
+
+// 云卡注销回调
+typedef void(^JDYunCardWrittenOffBlock)(NSDictionary *dic);
+
+// 云卡充值回调
+typedef void(^JDYunCardRechargeBlock)(NSDictionary *dic);
 
 // CA证书下发回调
 typedef void(^JDYunCardSDKCADownloadBlock)(NSDictionary *dic);
 
+// 后台图片获取回调
+typedef void(^JDYunCardSDKPicDownloadBlock)(NSDictionary *dic);
+
+// 云卡产品列表下载回调
+typedef void(^JDYunCardSDKTypeDownloadBlock)(NSDictionary *dic);
 
 
 @interface JDURLSession : NSObject<NSURLSessionDelegate>
@@ -38,8 +58,8 @@ typedef void(^JDYunCardSDKCADownloadBlock)(NSDictionary *dic);
 
 + (JDURLSession *)Manager;
 
-
-#pragma mark - 云卡用户注册
+/*************************************************云卡账户类接口*************************************************/
+#pragma mark -- 云卡用户注册
 
 /**
  云卡用户注册
@@ -50,16 +70,79 @@ typedef void(^JDYunCardSDKCADownloadBlock)(NSDictionary *dic);
 
 - (void)YunCardUserRegister:(NSDictionary *)userParams registerBlock:(JDYunCardSDKRegisterBlock)registerBlock;
 
-#pragma mark - 云卡产品列表
+#pragma mark -- 云卡开卡申请
+
 /**
- 云卡产品列表
+ 云卡开卡申请
 
- @param listBlock 产品列表的回调
+ @param userParams    用户级别的参数
+ @param openAccountBlock 云卡开卡申请的回调
  */
-- (void)getCardList:(JDYunCardSDKProcutListBlock)listBlock;
+
+- (void)YunCardOpenAccount:(NSDictionary *)userParams openAccountBlock:(JDYunCardSDKOpenAccountBlock)openAccountBlock;
 
 
-#pragma mark - CA证书下发
+#pragma mark -- 云卡信息(文件)下载
+
+/**
+ 云卡信息(文件)下载
+
+ @param userParams    用户级别的参数
+ @param downloadBlock 云卡信息下载回调
+ */
+
+- (void)YunCardDownload:(NSDictionary *)userParams downloadBlock:(JDYunCardSDKDownloadBlock)downloadBlock;
+
+#pragma mark -- 查询云卡（信息）列表
+
+/**
+ 查询云卡（信息）列表
+
+ @param userParams     用户级别的参数
+ @param queryListBlock 云卡信息列表查询回调
+ */
+
+- (void)YunCardQueryList:(NSDictionary *)userParams queryListBlock:(JDYunCardSDKQueryListBlock)queryListBlock;
+
+
+#pragma mark -- 查询云卡详情
+
+/**
+ 查询云卡详情
+
+ @param userParams     用户级别的参数
+ @param queryInfoBlock 查询云卡详情回调
+ */
+
+- (void)YunCardQueryInfo:(NSDictionary *)userParams queryInfoBlock:(JDYunCardSDKQueryInfoBlock)queryInfoBlock;
+
+
+#pragma mark -- 云卡注销
+
+/**
+ 云卡注销
+
+ @param userParams      用户级别的参数
+ @param writtenOffBlock 云卡注销的回调
+ */
+
+- (void)YunCardWrittenOff:(NSDictionary *)userParams writenOffBlock:(JDYunCardWrittenOffBlock)writtenOffBlock;
+
+
+
+/*************************************************交易类接口*************************************************/
+#pragma mark -- 云卡充值
+/**
+ 云卡充值
+
+ @param userParams    用户级别的参数
+ @param rechargeBlock 云卡充值后的回调
+ */
+- (void)YunCardAccountReharge:(NSDictionary *)userParams rechargeBlock:(JDYunCardRechargeBlock)rechargeBlock;
+
+/*************************************************公共类接口*************************************************/
+
+#pragma mark -- CA证书下发
 /**
  CA证书下发
 
@@ -69,7 +152,27 @@ typedef void(^JDYunCardSDKCADownloadBlock)(NSDictionary *dic);
 
 - (void)YunCardCADownload:(NSDictionary *)userParams CADownloadBlock:(JDYunCardSDKCADownloadBlock)downloadBlock;
 
+#pragma mark -- 后台图片获取
 
+/**
+ 后台图片获取
+
+ @param userParams       用户级别的参数
+ @param picDownloadBlock 后台图片获取回调
+ */
+
+- (void)YunCardPicDownload:(NSDictionary *)userParams picDownloadBlock:(JDYunCardSDKPicDownloadBlock)picDownloadBlock;
+
+#pragma mark -- 云卡产品列表下载
+
+/**
+ 云卡产品列表下载
+
+ @param userParams 用户级别的参数
+ @param typeBlock  云卡产品列表下载回调
+ */
+
+- (void)YunCardTypeDownload:(NSDictionary *)userParams typeDownloadBlock:(JDYunCardSDKTypeDownloadBlock)typeBlock;
 
 
 @end

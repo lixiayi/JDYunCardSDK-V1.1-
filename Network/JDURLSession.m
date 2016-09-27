@@ -107,7 +107,7 @@ NS_ASSUME_NONNULL_END
 }
 
 
-#pragma mark - 云卡用户注册
+#pragma mark --云卡用户注册
 
 /**
  云卡用户注册
@@ -130,19 +130,145 @@ NS_ASSUME_NONNULL_END
     }];
 }
 
-#pragma mark - 云卡产品列表
+#pragma mark -- 云卡开卡申请
 
 /**
- 云卡产品列表
+ 云卡开卡申请
  
- @param listBlock 产品列表的回调
+ @param userParams    用户级别的参数
+ @param openAccountBlock 云卡开卡申请的回调
  */
 
-- (void)getCardList:(JDYunCardSDKProcutListBlock)listBlock {
+- (void)YunCardOpenAccount:(NSDictionary *)userParams openAccountBlock:(JDYunCardSDKOpenAccountBlock)openAccountBlock {
+    NSURL *url = self.interfaceAddress;
+    NSString *allParams = [self allParamStr:userParams interface:cloud_card_open_account];
+    
+    [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
+        if (data) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            openAccountBlock(dict);
+        } else {
+            openAccountBlock(nil);
+        }
+    }];
     
 }
 
-#pragma mark - CA证书下发
+
+#pragma mark -- 云卡信息(文件)下载
+
+/**
+ 云卡信息(文件)下载
+ 
+ @param userParams    用户级别的参数
+ @param downloadBlock 云卡信息下载回调
+ */
+
+- (void)YunCardDownload:(NSDictionary *)userParams downloadBlock:(JDYunCardSDKDownloadBlock)downloadBlock{
+    NSURL *url = self.interfaceAddress;
+    NSString *allParams = [self allParamStr:userParams interface:cloud_card_download];
+    
+    [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
+        if (data) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            downloadBlock(dict);
+        } else {
+            downloadBlock(nil);
+        }
+    }];
+}
+
+#pragma mark -- 查询云卡（信息）列表
+
+/**
+ 查询云卡（信息）列表
+ 
+ @param userParams     用户级别的参数
+ @param queryListBlock 云卡信息列表查询回调
+ */
+
+- (void)YunCardQueryList:(NSDictionary *)userParams queryListBlock:(JDYunCardSDKQueryListBlock)queryListBlock{
+    NSURL *url = self.interfaceAddress;
+    NSString *allParams = [self allParamStr:userParams interface:cloud_card_query_list];
+    
+    [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
+        if (data) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            queryListBlock(dict);
+        } else {
+            queryListBlock(nil);
+        }
+    }];
+}
+
+#pragma mark -- 查询云卡详情
+
+/**
+ 查询云卡详情
+ 
+ @param userParams     用户级别的参数
+ @param queryInfoBlock 查询云卡详情回调
+ */
+
+- (void)YunCardQueryInfo:(NSDictionary *)userParams queryInfoBlock:(JDYunCardSDKQueryInfoBlock)queryInfoBlock {
+    NSURL *url = self.interfaceAddress;
+    NSString *allParams = [self allParamStr:userParams interface:cloud_card_query_info];
+    
+    [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
+        if (data) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            queryInfoBlock(dict);
+        } else {
+            queryInfoBlock(nil);
+        }
+    }];
+}
+
+#pragma mark -- 云卡注销
+
+/**
+ 云卡注销
+ 
+ @param userParams      用户级别的参数
+ @param writtenOffBlock 云卡注销的回调
+ */
+
+- (void)YunCardWrittenOff:(NSDictionary *)userParams writenOffBlock:(JDYunCardWrittenOffBlock)writtenOffBlock {
+    NSURL *url = self.interfaceAddress;
+    NSString *allParams = [self allParamStr:userParams interface:cloud_card_written_off];
+    
+    [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
+        if (data) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            writtenOffBlock(dict);
+        } else {
+            writtenOffBlock(nil);
+        }
+    }];
+}
+
+#pragma mark -- 云卡充值
+/**
+ 云卡充值
+ 
+ @param userParams    用户级别的参数
+ @param rechargeBlock 云卡充值后的回调
+ */
+- (void)YunCardAccountReharge:(NSDictionary *)userParams rechargeBlock:(JDYunCardRechargeBlock)rechargeBlock {
+    NSURL *url = self.interfaceAddress;
+    NSString *allParams = [self allParamStr:userParams interface:cloud_card_trans_account_recharge];
+    
+    [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
+        if (data) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            rechargeBlock(dict);
+        } else {
+            rechargeBlock(nil);
+        }
+    }];
+}
+
+#pragma mark -- CA证书下发
 /**
  CA证书下发
  
@@ -173,7 +299,54 @@ NS_ASSUME_NONNULL_END
         }
     }];
 }
-// 把pkcs#10请求的字符串去掉头部，尾部后的内容
+
+#pragma mark -- 后台图片获取
+
+/**
+ 后台图片获取
+ 
+ @param userParams       用户级别的参数
+ @param picDownloadBlock 后台图片获取回调
+ */
+
+- (void)YunCardPicDownload:(NSDictionary *)userParams picDownloadBlock:(JDYunCardSDKPicDownloadBlock)picDownloadBlock {
+    NSURL *url = self.interfaceAddress;
+    NSString *allParams = [self allParamStr:userParams interface:cloud_card_pic_download];
+    
+    [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
+        if (data) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            picDownloadBlock(dict);
+        } else {
+            picDownloadBlock(nil);
+        }
+    }];
+}
+
+#pragma mark -- 云卡产品列表下载
+
+/**
+ 云卡产品列表下载
+ 
+ @param userParams 用户级别的参数
+ @param typeBlock  云卡产品列表下载回调
+ */
+
+- (void)YunCardTypeDownload:(NSDictionary *)userParams typeDownloadBlock:(JDYunCardSDKTypeDownloadBlock)typeBlock {
+    NSURL *url = self.interfaceAddress;
+    NSString *allParams = [self allParamStr:userParams interface:cloud_card_type_download];
+    
+    [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
+        if (data) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            typeBlock(dict);
+        } else {
+            typeBlock(nil);
+        }
+    }];
+}
+
+// 把pkcs#10请求的字符串去掉头部/尾部后的内容
 - (NSString *)strippedRequestKey:(NSString *)requestKey header:(NSString *)header footer:(NSString *)footer {
     
     NSString *result = [[requestKey stringByReplacingOccurrencesOfString:header withString:@""] stringByReplacingOccurrencesOfString:footer withString:@""];
