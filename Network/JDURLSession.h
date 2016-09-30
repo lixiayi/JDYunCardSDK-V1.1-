@@ -38,6 +38,13 @@ typedef void(^JDYunCardWrittenOffBlock)(NSDictionary *dic);
 // 云卡充值回调
 typedef void(^JDYunCardRechargeBlock)(NSDictionary *dic);
 
+// 云卡交易扣费
+typedef void(^JDYunCardTransConsumeBlock)(NSDictionary *dic);
+
+// 消费记录查询回调
+typedef void(^JDYunCardTransRecordBlock)(NSDictionary *dic);
+
+
 // CA证书下发回调
 typedef void(^JDYunCardSDKCADownloadBlock)(NSDictionary *dic);
 
@@ -139,6 +146,27 @@ typedef void(^JDYunCardSDKTypeDownloadBlock)(NSDictionary *dic);
  @param rechargeBlock 云卡充值后的回调
  */
 - (void)YunCardAccountReharge:(NSDictionary *)userParams rechargeBlock:(JDYunCardRechargeBlock)rechargeBlock;
+
+#pragma mark -- 云卡交易扣费
+
+/**
+ 云卡交易扣费
+ 
+ @param userParams        用户级别的参数
+ @param transConsumeBlock 云卡交易扣费回调
+ */
+- (void)YunCardTransConsume:(NSDictionary *)userParams transConsumeBlock:(JDYunCardTransConsumeBlock)transConsumeBlock;
+
+#pragma mark -- 消费记录查询
+
+/**
+ 消费记录查询
+
+ @param userParams       用户级别的参数
+ @param transRecordBlock 交易记录查询回调
+ */
+- (void)YunCardTransRecord:(NSDictionary *)userParams transRecordBlock:(JDYunCardTransRecordBlock)transRecordBlock;
+
 
 /*************************************************公共类接口*************************************************/
 

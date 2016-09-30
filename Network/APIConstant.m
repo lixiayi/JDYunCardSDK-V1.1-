@@ -27,6 +27,8 @@ NSString *const cloud_card_query_info = @"cloud_card_query_info";
 NSString *const cloud_card_written_off = @"cloud_card_written_off";
 
 NSString *const cloud_card_trans_account_recharge =  @"cloud_card_trans_account_recharge";
+NSString *const cloud_card_trans_cousume = @"NSString *const";
+NSString *const pic_cloud_transaction_recod_query = @"pic_cloud_transaction_recod_query";
 
 NSString *const cloud_card_ca_download =  @"cloud_card_ca_download";
 NSString *const cloud_card_pic_download = @"cloud_card_pic_download";

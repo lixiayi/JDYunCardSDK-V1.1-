@@ -106,7 +106,7 @@ NS_ASSUME_NONNULL_END
     [self.mainSession invalidateAndCancel];
 }
 
-
+#pragma mark ****************************************帐户类接口****************************************
 #pragma mark --云卡用户注册
 
 /**
@@ -247,6 +247,7 @@ NS_ASSUME_NONNULL_END
     }];
 }
 
+#pragma mark ****************************************交易类接口****************************************
 #pragma mark -- 云卡充值
 /**
  云卡充值
@@ -268,6 +269,52 @@ NS_ASSUME_NONNULL_END
     }];
 }
 
+#pragma mark -- 云卡交易扣费
+
+/**
+ 云卡交易扣费
+ 
+ @param userParams        用户级别的参数
+ @param transConsumeBlock 云卡交易扣费回调
+ */
+
+- (void)YunCardTransConsume:(NSDictionary *)userParams transConsumeBlock:(JDYunCardTransConsumeBlock)transConsumeBlock {
+    NSURL *url = self.interfaceAddress;
+    NSString *allParams = [self allParamStr:userParams interface:cloud_card_trans_cousume];
+    
+    [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
+        if (data) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            transConsumeBlock(dict);
+        } else {
+            transConsumeBlock(nil);
+        }
+    }];
+}
+
+#pragma mark -- 消费记录查询
+
+/**
+ 消费记录查询
+ 
+ @param userParams       用户级别的参数
+ @param transRecordBlock 交易记录查询回调
+ */
+- (void)YunCardTransRecord:(NSDictionary *)userParams transRecordBlock:(JDYunCardTransRecordBlock)transRecordBlock{
+    NSURL *url = self.interfaceAddress;
+    NSString *allParams = [self allParamStr:userParams interface:pic_cloud_transaction_recod_query];
+    
+    [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
+        if (data) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            transRecordBlock(dict);
+        } else {
+            transRecordBlock(nil);
+        }
+    }];
+}
+
+#pragma mark ****************************************公共类接口****************************************
 #pragma mark -- CA证书下发
 /**
  CA证书下发

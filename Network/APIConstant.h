@@ -32,6 +32,8 @@ UIKIT_EXTERN NSString *const cloud_card_query_info;
 UIKIT_EXTERN NSString *const cloud_card_written_off;
 
 UIKIT_EXTERN NSString *const cloud_card_trans_account_recharge;
+UIKIT_EXTERN NSString *const cloud_card_trans_cousume;
+UIKIT_EXTERN NSString *const pic_cloud_transaction_recod_query;
 
 UIKIT_EXTERN NSString *const cloud_card_ca_download;
 UIKIT_EXTERN NSString *const cloud_card_pic_download;
