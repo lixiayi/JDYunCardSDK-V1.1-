@@ -11,6 +11,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JDUtils : NSObject
@@ -104,6 +105,36 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 + (NSString *)getCertNameByID:(NSString *)certId;
+
+/**
+ 截取部分图像
+
+ @param image 截取后的图片
+ @param rect  截取的区域
+
+ @return 截取后的图片
+ */
++ (UIImage *)getSubImage:(UIImage *)image withRect:(CGRect)rect;
+
+/**
+ 等比例缩放
+
+ @param image 原始图片
+ @param size  缩放的区域大小
+
+ @return 等比例缩放后的图片
+ */
++ (UIImage *)scaleImage:(UIImage *)image toSize:(CGSize)size;
+
+/**
+ 按指定宽度缩放图片
+
+ @param width 指定的宽度
+ @param img 原始图片
+
+ @return 按指定宽度缩放后的图片
+ */
++ (UIImage *)imageByScale:(float)width image:(UIImage *)img;
 
 NS_ASSUME_NONNULL_END
 

@@ -47,7 +47,7 @@
     NSString *nowTime = [formatter stringFromDate:[NSDate date]];
     // 后面再加两位随机数
     NSInteger randomInt = 10 + arc4random() % 90;
-    NSString *randomStr = [NSString stringWithFormat:@"%d",randomInt];
+    NSString *randomStr = [NSString stringWithFormat:@"%ld",(long)randomInt];
     // 返回时间和随机数的组合
     NSMutableString *resStr = [NSMutableString stringWithFormat:@"%@%@",nowTime,randomStr];
     return resStr;
@@ -203,6 +203,96 @@
         certName = NSLocalizedString(@"其它", @"");
     }
     return certName;
+}
+
+/**
+ 截取部分图像
+ 
+ @param rect 截取的区域
+ 
+ @return 截取后的图片
+ */
++ (UIImage *)getSubImage:(UIImage *)image withRect:(CGRect)rect {
+    CGImageRef subImageRef = CGImageCreateWithImageInRect(image.CGImage, rect);
+    CGRect smallBounds = CGRectMake(0, 0, CGImageGetWidth(subImageRef), CGImageGetHeight(subImageRef));
+    
+    UIGraphicsBeginImageContext(smallBounds.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextDrawImage(context, smallBounds, subImageRef);
+    UIImage *smallImage = [UIImage imageWithCGImage:subImageRef];
+    UIGraphicsEndImageContext();
+    return smallImage;
+}
+
+/**
+ 等比例缩放
+ 
+ @param image 原始图片
+ @param size  缩放的区域大小
+ 
+ @return 等比例缩放后的图片
+ */
++ (UIImage *)scaleImage:(UIImage *)image toSize:(CGSize)size {
+    CGFloat width = CGImageGetWidth(image.CGImage);
+    CGFloat height = CGImageGetHeight(image.CGImage);
+    
+    float verticalRadio = size.height * 1.0 / height;
+    float horizontalRadio = size.width * 1.0 / width;
+    
+    float radio = 1;
+    if (verticalRadio > 1 && horizontalRadio > 1)  {
+        radio = verticalRadio > horizontalRadio ? horizontalRadio : verticalRadio;
+    } else {
+        radio = verticalRadio < horizontalRadio ? verticalRadio : horizontalRadio;
+    }
+    
+    width = width * radio;
+    height = height * radio;
+    
+    int xPos = (size.width - width) / 2;
+    int yPos = (size.height - height) / 2;
+    
+    // 创建一个context
+    UIGraphicsBeginImageContext(size);
+    
+    // 绘制改变大小的图片
+    [image drawInRect:CGRectMake(xPos, yPos, width, height)];
+    
+    // 从当前context中创建一个改变大小后的图片
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // 使当前的context出堆栈
+    UIGraphicsEndImageContext();
+    return scaledImage;
+}
+
+/**
+ 按指定宽度缩放图片
+ 
+ @param width 指定的宽度
+ @param img 原始图片
+ 
+ @return 按指定宽度缩放后的图片
+ */
++ (UIImage *)imageByScale:(float)width image:(UIImage *)img {
+    UIImage *resultImage = nil;
+    
+    CGFloat sourceWidth = CGImageGetWidth(img.CGImage);
+    CGFloat sourceHeight = CGImageGetHeight(img.CGImage);
+    
+    if (width >= sourceWidth || width <= 0) {
+        return img;
+    }
+    
+    CGFloat scaleHeight = width * sourceWidth/sourceHeight;
+    CGSize size = CGSizeMake(width, scaleHeight);
+    UIGraphicsBeginImageContext(size);
+    [img drawInRect:CGRectMake(0, 0, width, scaleHeight)];
+    resultImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+
+    return resultImage;
 }
 
 @end
