@@ -136,6 +136,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (UIImage *)imageByScale:(float)width image:(UIImage *)img;
 
+
+/**
+ 把unicode字符串转成中文
+
+ @param unicodeStr unicode字符串
+
+ @return 中文
+ */
++ (NSString *)replaceUnicode:(NSString *)unicodeStr;
+
 NS_ASSUME_NONNULL_END
 
 @end

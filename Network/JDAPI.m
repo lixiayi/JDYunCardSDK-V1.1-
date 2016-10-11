@@ -122,6 +122,7 @@ static JDAPI *jd_api = nil;
     [mut_dic setValue:ver forKey:@"ver"];
     [mut_dic setValue:formate forKey:@"format"];
     [mut_dic setValue:app_id forKey:@"app_id"];
+    [mut_dic setValue:terminal_no forKey:@"terminal_no"];
     [mut_dic setValue:[JDUtils getCurrentTime] forKey:@"timestamp"];
     if (token) {
         [mut_dic setValue:s_token forKey:@"auth_token"];

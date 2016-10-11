@@ -18,4 +18,9 @@ FOUNDATION_EXPORT const unsigned char JDYunCardSDKVersionString[];
 #import <JDYunCardSDK/JDCommonConstant.h>
 #import <JDYunCardSDK/JDUtils.h>
 #import <JDYunCardSDK/JDDevice.h>
-
+#import <JDYunCardSDK/JDURLSession.h>
+#import <JDYunCardSDK/JDAPI.h>
+#import <JDYunCardSDK/APIConstant.h>
+#import <JDYunCardSDK/Base64.h>
+#import <JDYunCardSDK/zipAndUnzip.h>
+#import <JDYunCardSDK/Base64Defines.h>

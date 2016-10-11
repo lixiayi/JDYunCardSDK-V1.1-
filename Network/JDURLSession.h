@@ -16,6 +16,8 @@
 #import "JDAPI.h"
 #import "JDCommonConstant.h"
 #import "APIConstant.h"
+#import "Base64.h"
+#import "zipAndUnzip.h"
 
 // 云卡用户注册回调
 typedef void(^JDYunCardSDKRegisterBlock)(NSDictionary *dic);

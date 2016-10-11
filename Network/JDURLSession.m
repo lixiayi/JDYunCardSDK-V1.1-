@@ -117,12 +117,22 @@ NS_ASSUME_NONNULL_END
  */
 
 - (void)YunCardUserRegister:(NSDictionary *)userParams registerBlock:(JDYunCardSDKRegisterBlock)registerBlock {
-    NSURL *url = self.interfaceAddress;
-    NSString *allParamStr = [self allParamStr:userParams interface:cloud_card_user_register];
+    NSString *allUrl = [NSString stringWithFormat:@"%@",[self.interfaceAddress absoluteString]];
     
+    NSURL *url = [NSURL URLWithString:allUrl];
+    NSString *allParamStr = [self allParamStr:userParams interface:cloud_card_user_register];
+    NSLog(@"请求的URL地址：%@?%@",allUrl,allParamStr);
     [self postRequestToServer:url paramStr:allParamStr block:^(NSData *data, NSError *error) {
         if (data) {
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            NSString *respStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"接口返回S----->%@",respStr);
+            NSData *base64DecodeData = [Base64 decodeData:data];
+            zipAndUnzip *zipAnd = [[zipAndUnzip alloc] init];
+            NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingISOLatin1);
+            NSData *unzipData = [zipAnd gzipInflate:base64DecodeData];
+            NSString *uString = [[NSString alloc] initWithData:unzipData encoding:enc];
+            NSLog(@"调用接口:%@   解压后的字符串------>%@",@"cloud_card_user_register",uString);
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:unzipData options:NSJSONReadingAllowFragments error:&error];
             registerBlock(dict);
         } else {
             registerBlock(nil);
@@ -410,6 +420,10 @@ NS_ASSUME_NONNULL_END
     NSDictionary *applicationDictionary = [api getSystemParams:api.api_name withToken:NO];
     [allParams addEntriesFromDictionary:applicationDictionary];
     NSString *signStr = [api getSign:allParams];
+    if (!signStr || [signStr length] <= 0) {
+        signStr = @"debug signStr";
+    }
+    NSLog(@"signStr------>%@",signStr);
     allParams[@"sign"] = signStr;
     
     NSString *allParamStr = [api stringPairsFromDictionary:allParams];
