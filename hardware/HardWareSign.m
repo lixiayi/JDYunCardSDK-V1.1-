@@ -30,7 +30,8 @@
                               @"NETWORK_TYPE" : NETWORK_TYPE};
     
     NSMutableDictionary *hardDic = [NSMutableDictionary dictionaryWithDictionary:signDic];
-    signedStr = [[JDAPI shareAPI] getSign:hardDic];
+    JDAPI *api = [[JDAPI alloc] init];
+    signedStr = [api getSign:hardDic];
     
     return signedStr;
 }
@@ -47,7 +48,8 @@
 + (NSString *)signHardwardInterface:(NSDictionary *)hardwareInfo {
     NSString *signedStr = @"";
     NSMutableDictionary *hardDic = [NSMutableDictionary dictionaryWithDictionary:hardwareInfo];
-    signedStr = [[JDAPI shareAPI] getSign:hardDic];
+    JDAPI *api = [[JDAPI alloc] init];
+    signedStr = [api getSign:hardDic];
     
     return signedStr;
 }

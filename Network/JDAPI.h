@@ -10,7 +10,7 @@
  使用方法：
 
  1、设置api_name
- 2、调用 + (id)shareAPI方法创建管理器
+ 2、调用 init方法创建管理器
  3、调用方通过字典的方式列出应用级的参数
  4、调用方通过字典的方式列出系统级别的参数
  5、调用 - (NSString *)getParamsWithAppParam:(NSDictionary *)dic 
@@ -22,14 +22,6 @@
 @interface JDAPI : NSObject
 
 @property (nonatomic, strong)   NSString *api_name;
-
-/**
- *  单例构造器
- *
- *  @return 返回单例
- */
-
-+ (id)shareAPI;
 
 /**
  获取系统级别参数

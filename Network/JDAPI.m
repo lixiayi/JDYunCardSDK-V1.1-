@@ -14,19 +14,7 @@
 #import "JDUtils.h"
 #import "RSA.h"
 
-
-static JDAPI *jd_api = nil;
-
 @implementation JDAPI
-
-#pragma mark - 单例
-+ (id)shareAPI {
-    dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        jd_api = [[self alloc] init];
-    });
-    return jd_api;
-}
 
 #pragma mark- 生成数字签名(根据规则来定，如果是RSA则换成RSA签名)
 /**

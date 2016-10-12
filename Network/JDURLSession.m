@@ -75,6 +75,10 @@ NS_ASSUME_NONNULL_END
     return self;
 }
 
+- (id)init {
+    return [self initRequest];
+}
+
 #pragma mark - POST请求数据
 
 /**
@@ -117,22 +121,13 @@ NS_ASSUME_NONNULL_END
  */
 
 - (void)YunCardUserRegister:(NSDictionary *)userParams registerBlock:(JDYunCardSDKRegisterBlock)registerBlock {
-    NSString *allUrl = [NSString stringWithFormat:@"%@",[self.interfaceAddress absoluteString]];
-    
-    NSURL *url = [NSURL URLWithString:allUrl];
+    NSURL *url = self.interfaceAddress;
     NSString *allParamStr = [self allParamStr:userParams interface:cloud_card_user_register];
-    NSLog(@"请求的URL地址：%@?%@",allUrl,allParamStr);
+    NSString *requestUrl = [NSString stringWithFormat:@"%@?%@", [url absoluteString],allParamStr];
+    NSLog(@"请求的url：%@",requestUrl);
     [self postRequestToServer:url paramStr:allParamStr block:^(NSData *data, NSError *error) {
         if (data) {
-            NSString *respStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            NSLog(@"接口返回S----->%@",respStr);
-            NSData *base64DecodeData = [Base64 decodeData:data];
-            zipAndUnzip *zipAnd = [[zipAndUnzip alloc] init];
-            NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingISOLatin1);
-            NSData *unzipData = [zipAnd gzipInflate:base64DecodeData];
-            NSString *uString = [[NSString alloc] initWithData:unzipData encoding:enc];
-            NSLog(@"调用接口:%@   解压后的字符串------>%@",@"cloud_card_user_register",uString);
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:unzipData options:NSJSONReadingAllowFragments error:&error];
+            NSDictionary *dict = [self interfaceResponseHandle:data error:error];
             registerBlock(dict);
         } else {
             registerBlock(nil);
@@ -152,10 +147,11 @@ NS_ASSUME_NONNULL_END
 - (void)YunCardOpenAccount:(NSDictionary *)userParams openAccountBlock:(JDYunCardSDKOpenAccountBlock)openAccountBlock {
     NSURL *url = self.interfaceAddress;
     NSString *allParams = [self allParamStr:userParams interface:cloud_card_open_account];
-    
+    NSString *requestUrl = [NSString stringWithFormat:@"%@?%@", [url absoluteString],allParams];
+    NSLog(@"请求的url：%@",requestUrl);
     [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
         if (data) {
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            NSDictionary *dict = [self interfaceResponseHandle:data error:error];
             openAccountBlock(dict);
         } else {
             openAccountBlock(nil);
@@ -177,10 +173,11 @@ NS_ASSUME_NONNULL_END
 - (void)YunCardDownload:(NSDictionary *)userParams downloadBlock:(JDYunCardSDKDownloadBlock)downloadBlock{
     NSURL *url = self.interfaceAddress;
     NSString *allParams = [self allParamStr:userParams interface:cloud_card_download];
-    
+    NSString *requestUrl = [NSString stringWithFormat:@"%@?%@", [url absoluteString],allParams];
+    NSLog(@"请求的url：%@",requestUrl);
     [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
         if (data) {
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            NSDictionary *dict = [self interfaceResponseHandle:data error:error];
             downloadBlock(dict);
         } else {
             downloadBlock(nil);
@@ -200,10 +197,11 @@ NS_ASSUME_NONNULL_END
 - (void)YunCardQueryList:(NSDictionary *)userParams queryListBlock:(JDYunCardSDKQueryListBlock)queryListBlock{
     NSURL *url = self.interfaceAddress;
     NSString *allParams = [self allParamStr:userParams interface:cloud_card_query_list];
-    
+    NSString *requestUrl = [NSString stringWithFormat:@"%@?%@", [url absoluteString],allParams];
+    NSLog(@"请求的url：%@",requestUrl);
     [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
         if (data) {
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            NSDictionary *dict = [self interfaceResponseHandle:data error:error];
             queryListBlock(dict);
         } else {
             queryListBlock(nil);
@@ -223,10 +221,11 @@ NS_ASSUME_NONNULL_END
 - (void)YunCardQueryInfo:(NSDictionary *)userParams queryInfoBlock:(JDYunCardSDKQueryInfoBlock)queryInfoBlock {
     NSURL *url = self.interfaceAddress;
     NSString *allParams = [self allParamStr:userParams interface:cloud_card_query_info];
-    
+    NSString *requestUrl = [NSString stringWithFormat:@"%@?%@", [url absoluteString],allParams];
+    NSLog(@"请求的url：%@",requestUrl);
     [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
         if (data) {
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            NSDictionary *dict = [self interfaceResponseHandle:data error:error];
             queryInfoBlock(dict);
         } else {
             queryInfoBlock(nil);
@@ -246,10 +245,11 @@ NS_ASSUME_NONNULL_END
 - (void)YunCardWrittenOff:(NSDictionary *)userParams writenOffBlock:(JDYunCardWrittenOffBlock)writtenOffBlock {
     NSURL *url = self.interfaceAddress;
     NSString *allParams = [self allParamStr:userParams interface:cloud_card_written_off];
-    
+    NSString *requestUrl = [NSString stringWithFormat:@"%@?%@", [url absoluteString],allParams];
+    NSLog(@"请求的url：%@",requestUrl);
     [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
         if (data) {
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            NSDictionary *dict = [self interfaceResponseHandle:data error:error];
             writtenOffBlock(dict);
         } else {
             writtenOffBlock(nil);
@@ -268,10 +268,11 @@ NS_ASSUME_NONNULL_END
 - (void)YunCardAccountReharge:(NSDictionary *)userParams rechargeBlock:(JDYunCardRechargeBlock)rechargeBlock {
     NSURL *url = self.interfaceAddress;
     NSString *allParams = [self allParamStr:userParams interface:cloud_card_trans_account_recharge];
-    
+    NSString *requestUrl = [NSString stringWithFormat:@"%@?%@", [url absoluteString],allParams];
+    NSLog(@"请求的url：%@",requestUrl);
     [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
         if (data) {
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            NSDictionary *dict = [self interfaceResponseHandle:data error:error];
             rechargeBlock(dict);
         } else {
             rechargeBlock(nil);
@@ -291,10 +292,11 @@ NS_ASSUME_NONNULL_END
 - (void)YunCardTransConsume:(NSDictionary *)userParams transConsumeBlock:(JDYunCardTransConsumeBlock)transConsumeBlock {
     NSURL *url = self.interfaceAddress;
     NSString *allParams = [self allParamStr:userParams interface:cloud_card_trans_cousume];
-    
+    NSString *requestUrl = [NSString stringWithFormat:@"%@?%@", [url absoluteString],allParams];
+    NSLog(@"请求的url：%@",requestUrl);
     [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
         if (data) {
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            NSDictionary *dict = [self interfaceResponseHandle:data error:error];
             transConsumeBlock(dict);
         } else {
             transConsumeBlock(nil);
@@ -313,10 +315,11 @@ NS_ASSUME_NONNULL_END
 - (void)YunCardTransRecord:(NSDictionary *)userParams transRecordBlock:(JDYunCardTransRecordBlock)transRecordBlock{
     NSURL *url = self.interfaceAddress;
     NSString *allParams = [self allParamStr:userParams interface:pic_cloud_transaction_recod_query];
-    
+    NSString *requestUrl = [NSString stringWithFormat:@"%@?%@", [url absoluteString],allParams];
+    NSLog(@"请求的url：%@",requestUrl);
     [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
         if (data) {
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            NSDictionary *dict = [self interfaceResponseHandle:data error:error];
             transRecordBlock(dict);
         } else {
             transRecordBlock(nil);
@@ -347,9 +350,11 @@ NS_ASSUME_NONNULL_END
     [sdkParams setObject:cert_object forKey:@"cert_object"];
     
     NSString *allParamStr = [self allParamStr:sdkParams interface:cloud_card_ca_download];
+    NSString *requestUrl = [NSString stringWithFormat:@"%@?%@", [url absoluteString],allParamStr];
+    NSLog(@"请求的url：%@",requestUrl);
     [self postRequestToServer:url paramStr:allParamStr block:^(NSData *data, NSError *error) {
         if (data) {
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            NSDictionary *dict = [self interfaceResponseHandle:data error:error];
             downloadBlock(dict);
         } else {
             downloadBlock(nil);
@@ -369,10 +374,11 @@ NS_ASSUME_NONNULL_END
 - (void)YunCardPicDownload:(NSDictionary *)userParams picDownloadBlock:(JDYunCardSDKPicDownloadBlock)picDownloadBlock {
     NSURL *url = self.interfaceAddress;
     NSString *allParams = [self allParamStr:userParams interface:cloud_card_pic_download];
-    
+    NSString *requestUrl = [NSString stringWithFormat:@"%@?%@", [url absoluteString],allParams];
+    NSLog(@"请求的url：%@",requestUrl);
     [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
         if (data) {
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            NSDictionary *dict = [self interfaceResponseHandle:data error:error];
             picDownloadBlock(dict);
         } else {
             picDownloadBlock(nil);
@@ -392,10 +398,11 @@ NS_ASSUME_NONNULL_END
 - (void)YunCardTypeDownload:(NSDictionary *)userParams typeDownloadBlock:(JDYunCardSDKTypeDownloadBlock)typeBlock {
     NSURL *url = self.interfaceAddress;
     NSString *allParams = [self allParamStr:userParams interface:cloud_card_type_download];
-    
+    NSString *requestUrl = [NSString stringWithFormat:@"%@?%@", [url absoluteString],allParams];
+    NSLog(@"请求的url：%@",requestUrl);
     [self postRequestToServer:url paramStr:allParams block:^(NSData *data, NSError *error) {
         if (data) {
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            NSDictionary *dict = [self interfaceResponseHandle:data error:error];
             typeBlock(dict);
         } else {
             typeBlock(nil);
@@ -413,7 +420,7 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - private 获取请求参数字符串
 - (NSString *)allParamStr:(NSDictionary *)userParams interface:(NSString *)interfaceName{
-    JDAPI *api = [JDAPI shareAPI];
+    JDAPI *api = [[JDAPI alloc] init];
     api.api_name = interfaceName;
 
     NSMutableDictionary *allParams = [NSMutableDictionary dictionaryWithDictionary:userParams];
@@ -429,5 +436,19 @@ NS_ASSUME_NONNULL_END
     NSString *allParamStr = [api stringPairsFromDictionary:allParams];
     return allParamStr;
 }
+
+#pragma mark - private 接口返回处理
+- (NSDictionary *)interfaceResponseHandle:(NSData *)data error:(NSError *)error{
+//    NSLog(@"接口返回D----->%@",data);
+    NSString *respStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"接口返回S----->%@",respStr);
+    NSData *base64DecodeData = [Base64 decodeData:data];
+    zipAndUnzip *zipAnd = [[zipAndUnzip alloc] init];
+    NSData *unzipData = [zipAnd gzipInflate:base64DecodeData];
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:unzipData options:NSJSONReadingAllowFragments error:&error];
+    
+    return dict;
+}
+
 
 @end
